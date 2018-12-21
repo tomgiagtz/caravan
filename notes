@@ -1,0 +1,49 @@
+fetch('http://localhost:3000/graphql', {
+method: 'POST', 
+headers: {'Content-Type': 'application/json'},
+body: JSON.stringify({query:'{allCampaigns{name}}'})
+})
+.then(resp=> resp.json()).then(console.log)
+
+### Create Voter Record
+
+# mutation {
+#   createVoterRecord(campaign_id: 2,
+#     								name: "Eeyore",
+#     								address: "the stump",
+#     								party_affiliation: "Democrat",
+#     								phone_number: "4444444444", 
+#     								contacted: true){
+#     name
+#   }
+# }
+
+
+### Create Survey
+
+# mutation {
+#   createSurveyResult( voter_record_id: 2,
+#   										answered: true,
+#   										knows_candidate: true,
+#   										supports_candidate: false,
+#   										level_of_support: 1,
+#   										notes: "gloomy fellow, didn't seem to be supportive of anything at all") {
+#     notes
+    
+#   }
+# }
+
+mutation {
+  createUser(
+    name: "Example",
+  	authProvider: {
+      email: {
+        email: "example@example.com",
+        password: "password"
+      }
+    }
+  ) {
+    id
+    name
+  }
+}

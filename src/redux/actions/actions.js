@@ -1,5 +1,5 @@
 import {
-	FETCH_VOTERS,
+	VOTER_CONTACTED,
 	FETCHING_VOTERS,
 	FETCHED_VOTERS,
 	SELECT_VOTER,
@@ -27,7 +27,11 @@ export function selectVoters() {
 }
 export function postSurvey(data) {
 	return (dispatch) => {
-		postSurveyQuery(data, (name) => dispatch(postedSurvey()))
+		postSurveyQuery(data, (name) =>  {
+			if (data.answered) {dispatch(voterContacted)}
+			// else {disptach(push voter to back of toContact or remove from toContact?)}
+			dispatch(postedSurvey())
+		})
 	}
 }
 
@@ -47,4 +51,8 @@ export function fetchCampaign(id) {
 export function fetchedCampaign(campaign) {
 	console.log(campaign)
 	return { type: FETCHED_CAMPAIGN, campaign }
+}
+
+export function voterContacted(voterId) {
+	return { type: VOTER_CONTACTED, voterId}
 }

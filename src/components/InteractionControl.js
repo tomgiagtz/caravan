@@ -6,12 +6,11 @@ import { Button } from 'semantic-ui-react';
 class InteractionControl extends Component {
 	state = {currentAction : 'call'}
 	handleClick = () => {
-		console.log(this.state.currentAction)
 		if (this.state.currentAction === 'call') {
-			window.open('tel: ' + this.props.phoneNumber)
+			window.open('tel: ' + this.props.currentVoter.phone_number)
 			this.setState({ currentAction: 'survey' })
 		} else {
-			this.props.history.push('/phone/' + this.props.voterId + '/survey')
+			this.props.history.push('/phone/' + this.props.currentVoter.id + '/survey')
 		}
 		
 	}
@@ -25,4 +24,8 @@ class InteractionControl extends Component {
 	}
 }
 
-export default withRouter(InteractionControl)
+const mapStateToProps = (state) => {
+	return { currentVoter: state.voters.toContact[0] }
+}
+
+export default withRouter(connect(mapStateToProps)(InteractionControl))

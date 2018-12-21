@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {Segment, Icon, Header, Button} from 'semantic-ui-react'
 import { Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 const instructions = 'Here are some sort of instructions where you would explain how to use the script and provide other information'
 
-export default class StartCalling extends Component {
+class StartCalling extends Component {
   render() {
 	return (
 	  <Segment placeholder>
@@ -12,8 +13,16 @@ export default class StartCalling extends Component {
 		  <Icon name="phone" />
 		</Header>
 			{instructions}
-			<Button as={Link} to="/phone/1bbe1c5c-f77b-48aa-a323-6280558c73f3" primary>Start Calling</Button>
+				
+			{this.props.nextVoter ? <Button as={Link} to={"/phone/" + this.props.nextVoter.id} primary>Start Calling</Button> : 'No more voters in this batch'} 
 	  </Segment>
 	)
   }
+
 }
+
+const mapStateToProps = (state) => {
+	return { nextVoter: state.voters.toContact[0] }
+}
+
+export default connect(mapStateToProps)(StartCalling)

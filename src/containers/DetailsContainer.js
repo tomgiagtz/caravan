@@ -6,7 +6,7 @@ import InteractionControl from '../components/InteractionControl';
 class DetailsContainer extends Component {
 	render() {
 		if (this.props.voter) {
-			let { id, name, survey_results, phone_number: phoneNumber, party_affiliation: partyAffiliation, contacted } = this.props.voter
+			let { name, survey_results, party_affiliation: partyAffiliation, contacted } = this.props.voter
 			// let phoneNumber = this.props.voter.phone_number
 			// let partyAffiliation = this.props.party_affiliation
 			let notes = survey_results.map(note => {
@@ -44,7 +44,7 @@ class DetailsContainer extends Component {
 							</Grid.Row>
 							<Grid.Row>
 								<Grid.Column>
-									<InteractionControl phoneNumber={phoneNumber} voterId={id} />
+									<InteractionControl />
 								</Grid.Column>
 							</Grid.Row>
 						</Grid>
@@ -60,7 +60,7 @@ class DetailsContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		voter: state.voters.find(v => v.id === ownProps.match.params.voterId),
+		voter: state.voters.toContact.find(v => v.id === ownProps.match.params.voterId),
 		script: state.campaign.script
 	}
 }

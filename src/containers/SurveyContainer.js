@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Header, Checkbox, Label, TextArea, Grid, Icon } from 'semantic-ui-react';
 import { Slider } from 'react-semantic-ui-range'
 import { connect } from 'react-redux'
-import { postSurvey } from '../redux/actions/actions'
+import { postSurvey, voterContacted } from '../redux/actions/actions'
 
 class SurveyContainer extends Component {
 	state = {
@@ -86,15 +86,15 @@ class SurveyContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-		voter: state.voters.find(v => v.id === ownProps.match.params.voterId),
-	}
+const mapStateToProps = (state) => {
+	return { voter: state.voters.toContact[0] }
 }
+
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		postSurvey: (data) => dispatch(postSurvey(data))
+		postSurvey: (data) => dispatch(postSurvey(data)),
+		voterContacted
 	}
 }
 

@@ -9,11 +9,12 @@ import { fetchVoters, fetchCampaign } from "./redux/actions/actions";
 import { Switch, Route, withRouter } from "react-router-dom";
 import {PrivateRoute} from './helpers/PrivateRoute'
 import LoginContainer from "./containers/LoginContainer";
+import NotFound from "./components/NotFound"
 
 class App extends Component {
 	componentDidMount() {
 		// this.props.fetchVoters()
-		this.props.fetchCampaign();
+		// this.props.fetchCampaign();
 	}
 	render() {
 		return (
@@ -24,7 +25,7 @@ class App extends Component {
 						<Route exact path="/home" component={HomeContainer} />
 						<PrivateRoute exact path="/phone" component={PrivateRoute(PhoneContainer)} />
 						<Route path="/login" component={LoginContainer} />
-						<Route path="/" component={HomeContainer} />
+						<Route path="/" component={NotFound} />
 					</Switch>
 				</Segment>
 			</div>

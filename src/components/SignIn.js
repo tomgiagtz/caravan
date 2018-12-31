@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { Input, Form, Header, Grid } from "semantic-ui-react";
+import { Form, Header, Grid } from "semantic-ui-react";
+import {Link } from 'react-router-dom'
 
-export default class SignIn extends Component {
+class SignIn extends Component {
 	render() {
 		return (
 			<>
 				<Grid.Row>
-					<Header>Sign In</Header>
+					<Header>Sign into your Caravan</Header>
 				</Grid.Row>
 				<Grid.Row>
 					<Form>
@@ -21,9 +22,20 @@ export default class SignIn extends Component {
 							placeholder="Password"
 							type="password"
 						/>
+						<Form.Button fluid >
+							Sign In
+						</Form.Button>
 					</Form>
+					
+				</Grid.Row>
+				<Grid.Row>
+					New to Caravan? <Link to='/login/signup'>Sign Up</Link>
 				</Grid.Row>
 			</>
 		);
 	}
 }
+
+export default SignIn
+
+

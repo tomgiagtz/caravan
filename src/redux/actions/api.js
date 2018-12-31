@@ -1,7 +1,6 @@
-import { authHeader } from '../../helpers/authHeader'
+import { authHeader } from "../../helpers/authHeader";
 
 const URL = "http://localhost:3001/graphql";
-
 
 function postQuery(queryString, callback) {
 	fetch(URL, {
@@ -76,10 +75,48 @@ export const postSurveyQuery = (data, callback) => {
 	postQuery(queryString, callback);
 };
 
-export const loginUser = (data) => {
+export const loginUser = data => {};
 
-}
+export const createUser = data => {};
 
-export const createUser = (data) => {
+//  mutation {
+//    signInUser(email: {email: "example@example.com", password: "password"}) {
+//  user {
+//    id
+//    name
+//    campaign {
+//  name
+//    }
+//  }
+//  token
+//    }
+//  }
 
-}
+//
+
+//  {
+//    campaign(id: "5ebcfa50-e4c4-4709-b874-c0314a16e52b") {
+//  script
+//  id
+//  users {
+//    name
+//    campaign {
+//  name
+//    }
+//  }
+//    }
+//  }
+
+// mutation {
+// 	createUser(name: "Example", authProvider: {email: {email: "example@example.com", password: "password"}}) {
+// 	  id
+// 	  name
+// 	  email
+// 	}
+//   }
+
+//  mutation {
+//    updateUserCampaign(user_id: "65c5b0c4-5c99-4510-9e2b-cc87ee274fc9", campaign_id: "5ebcfa50-e4c4-4709-b874-c0314a16e52b") {
+//  name
+//    }
+//  }

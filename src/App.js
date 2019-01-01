@@ -23,7 +23,7 @@ class App extends Component {
 				<Segment inverted color="grey" className="App">
 					<Switch>
 						<Route exact path="/home" component={HomeContainer} />
-						<PrivateRoute exact path="/phone" component={PrivateRoute(PhoneContainer)} />
+						<PrivateRoute path="/phone" component={PhoneContainer} />
 						<Route path="/login" component={LoginContainer} />
 						<Route path="/" component={NotFound} />
 					</Switch>

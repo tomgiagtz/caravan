@@ -1,31 +1,54 @@
 import React, { Component } from "react";
 import { Menu, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
+import {logoutUser} from '../redux/actions/api'
 
 const color = "violet";
 class NavBar extends Component {
-	state = { activeItem: 'home' };
-	
-	// componentDidUpdate() {
-	// 	this.setState({ activeItem: this.getRouteName() })
-	// 	console.log(this.state.activeItem)
-	// }
+	state = { activeItem: "home" };
+
 	correctPath = () => {
 		return this.state.activeItem === this.getRouteName();
-	}
+	};
 	handleItemClick = (e, { name }) => {
-		console.log(name)
-		this.setState({ activeItem: name});
+		this.setState({ activeItem: name });
 	};
 
 	getRouteName = () => {
 		return this.props.location.pathname.split("/")[1];
 	};
 
+	logInOut = () => {
+		let user = JSON.parse(localStorage.getItem("user"));
+		let clickFunc;
+		let text = "";
+		if (user && user.authdata) {
+			clickFunc = logoutUser
+			text = "Logout";
+		} else {
+			text = "Login";
+			clickFunc=this.handleItemClick
+		}
+		return (
+			<Menu.Item
+				as={Link}
+				to="/login"
+				active={this.state.activeItem === "login"}
+				position="right"
+				onClick={clickFunc}
+				color={color}
+				name="login"
+			>
+				{text}
+			</Menu.Item>
+		);
+	};
+
 	render() {
 		const { activeItem } = this.state;
+		//handles redirects
 		if (!this.correctPath()) {
-			this.handleItemClick(null, {name: this.getRouteName()})
+			this.handleItemClick(null, { name: this.getRouteName() });
 		}
 		return (
 			<Menu inverted>
@@ -67,18 +90,7 @@ class NavBar extends Component {
 					{" "}
 					Canvas
 				</Menu.Item>
-				<Menu.Item
-					as={Link}
-					to="/login"
-					active={activeItem === "login"}
-					position="right"
-					onClick={this.handleItemClick}
-					color={color}
-					name="login"
-				>
-					{" "}
-					Login
-				</Menu.Item>
+				{this.logInOut()}
 			</Menu>
 		);
 	}

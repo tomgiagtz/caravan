@@ -66,16 +66,25 @@ export const postSurveyQuery = (data, callback) => {
 		`answered: ${answered}, ` +
 		`knows_candidate: ${knows_candidate}, ` +
 		`supports_candidate: ${supports_candidate}, ` +
-		`level_of_support: ${level_of_support}` +
-		") {" +
-		"voter_record {" +
-		"name" +
-		"} " +
-		"} }";
+		`level_of_support: ${level_of_support} )` +
+		//response data
+		" { voter_record { name } } }"
 	postQuery(queryString, callback);
 };
 
-export const loginUser = data => {};
+export const loginUser = (data, callback) => {
+	let {email, password} = data
+	let queryString = 'mutation { signInUser( email: {' +
+		`email: "${email}", `+
+		`password: "${password}"})` + 
+		//response data
+		'{user { id name campaign {id name}} token } }'
+	postQuery(queryString, callback)
+};
+
+export const logoutUser = () => {
+	localStorage.removeItem('user');
+}
 
 export const createUser = data => {};
 

@@ -82,26 +82,29 @@ export const loginUser = (data, callback) => {
 	postQuery(queryString, callback)
 };
 
+export const createUser = (data, callback) => {
+	let {name, email, password} = data
+	let queryString = 'mutation { createUser(' + 
+		`name: "${name}", ` +
+		'authProvider: {email: {' +
+		`email: "${email}", `+
+		`password: "${password}"}})` + 
+		//response data
+		'{id name email} }'
+	postQuery(queryString, callback)
+};
+
+
 export const logoutUser = () => {
 	localStorage.removeItem('user');
 }
-
-export const createUser = data => {};
-
-//  mutation {
-//    signInUser(email: {email: "example@example.com", password: "password"}) {
-//  user {
-//    id
-//    name
-//    campaign {
-//  name
-//    }
-//  }
-//  token
-//    }
-//  }
-
-//
+// mutation {
+// 	createUser(name: "Example", authProvider: {email: {email: "example@example.com", password: "password"}}) {
+// 	  id
+// 	  name
+// 	  email
+// 	}
+//   }
 
 //  {
 //    campaign(id: "5ebcfa50-e4c4-4709-b874-c0314a16e52b") {
@@ -116,13 +119,6 @@ export const createUser = data => {};
 //    }
 //  }
 
-// mutation {
-// 	createUser(name: "Example", authProvider: {email: {email: "example@example.com", password: "password"}}) {
-// 	  id
-// 	  name
-// 	  email
-// 	}
-//   }
 
 //  mutation {
 //    updateUserCampaign(user_id: "65c5b0c4-5c99-4510-9e2b-cc87ee274fc9", campaign_id: "5ebcfa50-e4c4-4709-b874-c0314a16e52b") {

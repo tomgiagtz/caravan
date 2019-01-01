@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Header, Grid, Form } from "semantic-ui-react";
+import { Header, Grid, Form, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { createUser } from "../redux/actions/api";
+import { createUser, loginUser } from "../redux/actions/api";
 
 class SignUp extends Component {
 	state = {
@@ -21,14 +21,34 @@ class SignUp extends Component {
 			name: this.state.name,
 			email: this.state.email,
 			password: this.state.password
-		}
-		let callback = (resp) => {
-			console.log(resp)
-		}
+		};
+		let callback = resp => {
+			console.log(resp);
 
-		createUser(data, callback)
-	}
-	
+			if (resp.status && resp.status === 422) {
+				//invalid email
+				this.setState({ error: true });
+			} else {
+				// login user
+				let loginCallback = ({ data: { signInUser } }) => {
+					if (signInUser && signInUser.token) {
+						localStorage.setItem(
+							"user",
+							JSON.stringify({ authdata: signInUser.token })
+						);
+						this.props.history.push("/home");
+					} else {
+						this.props.history.push("/login");
+					}
+				};
+
+				loginUser(data, loginCallback)
+			}
+		};
+
+		createUser(data, callback);
+	};
+
 	render() {
 		return (
 			<>
@@ -39,25 +59,37 @@ class SignUp extends Component {
 					<Grid.Column width={6}>
 						<Form error>
 							<Form.Input
-							name="name"
+								name="name"
 								icon="user"
 								iconPosition="left"
 								placeholder="Name"
+								onChange={this.handleInputChange}
 							/>
 							<Form.Input
-							name="email"
+								name="email"
 								icon="mail"
 								iconPosition="left"
 								placeholder="Email Address"
+								onChange={this.handleInputChange}
 							/>
 							<Form.Input
-							name="password"
+								name="password"
 								icon="lock"
 								iconPosition="left"
 								placeholder="Password"
 								type="password"
+								onChange={this.handleInputChange}
 							/>
-							<Form.Button fluid>Sign Up</Form.Button>
+							{this.state.error ? (
+								<Message
+									error
+									header="Invalid Email"
+									content="There is already an account associated with this email"
+								/>
+							) : null}
+							<Form.Button fluid onClick={this.handleSignUp}>
+								Sign Up
+							</Form.Button>
 						</Form>
 					</Grid.Column>
 				</Grid.Row>

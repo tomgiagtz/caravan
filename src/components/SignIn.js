@@ -29,10 +29,10 @@ class SignIn extends Component {
 				);
 				this.props.history.push("/home");
 			} else {
+				//if response bad, display invalid login
 				console.log("invalid");
 				this.setState({ error: true });
 			}
-			//if response bad, display invalid login
 		};
 
 		loginUser(data, callback);

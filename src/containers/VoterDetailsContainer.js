@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { TextArea, Form, Icon, Grid, Label, Header } from "semantic-ui-react";
+import {
+	TextArea,
+	Form,
+	Icon,
+	Grid,
+	Label,
+	Header,
+	Container
+} from "semantic-ui-react";
 import InteractionControl from "../components/InteractionControl";
 
-class DetailsContainer extends Component {
+class VoterDetailsContainer extends Component {
 	render() {
 		if (this.props.voter) {
 			let {
@@ -17,7 +25,6 @@ class DetailsContainer extends Component {
 			let notes = survey_results.map(note => {
 				return note.notes + "\n\n";
 			});
-			console.log(this.props);
 			return (
 				<>
 					<Grid centered columns={2}>
@@ -25,13 +32,9 @@ class DetailsContainer extends Component {
 							<Header>{name} </Header>
 						</Grid.Row>
 						<Grid.Row>
+							<Grid.Column>Party: {partyAffiliation}</Grid.Column>
 							<Grid.Column>
-								{" "}
-								Party: {partyAffiliation}{" "}
-							</Grid.Column>
-							<Grid.Column>
-								{" "}
-								Contacted:{" "}
+								Contacted:
 								{contacted ? (
 									<Icon name="check circle" color="green" />
 								) : (
@@ -41,8 +44,6 @@ class DetailsContainer extends Component {
 						</Grid.Row>
 					</Grid>
 					<Form>
-						{" "}
-						{/*Just used as a segment for the text areas */}
 						<Grid padded>
 							<Grid.Row>
 								<Grid.Column>
@@ -50,9 +51,7 @@ class DetailsContainer extends Component {
 										Script
 									</Label>
 
-									<TextArea
-										defaultValue={this.props.script}
-									/>
+									<Container>{this.props.script}</Container>
 								</Grid.Column>
 							</Grid.Row>
 							<Grid.Row>
@@ -88,4 +87,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps)(DetailsContainer);
+export default connect(mapStateToProps)(VoterDetailsContainer);

@@ -7,23 +7,35 @@ import { connect } from "react-redux";
 import { Segment } from "semantic-ui-react";
 import { fetchVoters, fetchCampaign } from "./redux/actions/actions";
 import { Switch, Route, withRouter } from "react-router-dom";
-import {PrivateRoute} from './helpers/PrivateRoute'
+import { PrivateRoute } from "./helpers/PrivateRoute";
 import LoginContainer from "./containers/LoginContainer";
-import NotFound from "./components/NotFound"
+import NotFound from "./components/NotFound";
+import CampaignContainer from "./containers/CampaignContainer";
+import getUser from "./helpers/getUser";
 
 class App extends Component {
 	componentDidMount() {
-		// this.props.fetchVoters()
-		// this.props.fetchCampaign();
+		let user = getUser();
+		if (user && user.info.campaign) {
+			this.props.fetchCampaign(user.info.campaign.id);
+		}
 	}
+
 	render() {
 		return (
 			<div className="App">
-				<NavBar />
-				<Segment inverted color="grey" className="App">
+				<Segment color="grey" inverted>
+					<NavBar />
 					<Switch>
 						<Route exact path="/home" component={HomeContainer} />
-						<PrivateRoute path="/phone" component={PhoneContainer} />
+						<PrivateRoute
+							path="/phone"
+							component={PhoneContainer}
+						/>
+						<PrivateRoute
+							path="/campaign"
+							component={CampaignContainer}
+						/>
 						<Route path="/login" component={LoginContainer} />
 						<Route path="/" component={NotFound} />
 					</Switch>
@@ -34,17 +46,22 @@ class App extends Component {
 }
 const mapDispatchToProps = dispatch => {
 	return {
-		fetchCampaign: () => {
-			dispatch(fetchCampaign("5ebcfa50-e4c4-4709-b874-c0314a16e52b"));
+		fetchCampaign: id => {
+			dispatch(fetchCampaign(id));
 		},
 		fetchVoters: () => {
 			dispatch(fetchVoters());
 		}
 	};
 };
+
+const mapStateToProps = state => {
+	return { campaign: state.campaign };
+};
+
 export default withRouter(
 	connect(
-		null,
+		mapStateToProps,
 		mapDispatchToProps
 	)(App)
 );

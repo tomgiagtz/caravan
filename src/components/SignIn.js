@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { Form, Header, Grid, Message } from "semantic-ui-react";
+import { Form, Header, Grid, Message, Segment } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
-import { loginUser } from "../redux/actions/api";
+import { loginUser, updateUserCampaign } from "../redux/actions/api";
+import { fetchCampaign } from "../redux/actions/actions";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import getUser from "../helpers/getUser";
 
 class SignIn extends Component {
 	state = {
@@ -19,14 +23,21 @@ class SignIn extends Component {
 		let data = {
 			email: this.state.email,
 			password: this.state.password
-		}
+		};
 		let callback = ({ data: { signInUser } }) => {
-			//if response good, set needed data and token (dispatch?), redirect home
+			//if response good, set needed data (dispatch?) and token , redirect home
 			if (signInUser && signInUser.token) {
 				localStorage.setItem(
 					"user",
-					JSON.stringify({ authdata: signInUser.token })
+					JSON.stringify({
+						authdata: signInUser.token,
+						info: signInUser.user
+					})
 				);
+				// debugger
+				if (signInUser.user.info && signInUser.user.info.campaign) {
+					this.props.fetchCampaign(signInUser.info.campaign.id);
+				}
 				this.props.history.push("/home");
 			} else {
 				//if response bad, display invalid login
@@ -39,6 +50,10 @@ class SignIn extends Component {
 	};
 
 	render() {
+		let user = getUser();
+		if (user && user.authdata) {
+			return <Redirect to="/home" />;
+		}
 		return (
 			<>
 				<Grid.Row>
@@ -77,11 +92,18 @@ class SignIn extends Component {
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
-					New to Caravan? <Link to="/login/signup">Sign Up</Link>
+					<Grid.Column width={6}>
+						<Segment textAlign='center'>
+							New to Caravan? <Link to="/login/signup">Sign Up</Link>
+						</Segment>
+					</Grid.Column>
 				</Grid.Row>
 			</>
 		);
 	}
 }
 
-export default withRouter(SignIn);
+export default connect(
+	null,
+	{ fetchCampaign }
+)(withRouter(SignIn));

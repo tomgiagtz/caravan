@@ -3,9 +3,10 @@ import {
 	FETCHING_VOTERS,
 	FETCHED_VOTERS,
 	SELECT_VOTER,
-	POST_SURVEY,
+	CLEAR_STATE,
 	POSTED_SURVEY,
-	FETCHED_CAMPAIGN
+	FETCHED_CAMPAIGN,
+	VOTER_NO_ANSWER,
 } from "./types";
 
 import { queryVoters, queryCampaign, postSurveyQuery } from "./api";
@@ -52,6 +53,17 @@ export function fetchCampaign(id) {
 	};
 }
 
+export function updateCampaign(id) {
+	return dispatch => {
+		dispatch(fetchCampaign(id))
+	}
+}
+
+export function clearState() {
+	return {type : CLEAR_STATE}
+}
+
+
 export function fetchedCampaign(campaign) {
 	console.log(campaign);
 	return { type: FETCHED_CAMPAIGN, campaign };
@@ -59,4 +71,8 @@ export function fetchedCampaign(campaign) {
 
 export function voterContacted(voterId) {
 	return { type: VOTER_CONTACTED, voterId };
+}
+
+export function voterNoAnswer(voterId) {
+	return { type: VOTER_NO_ANSWER, voterId}
 }

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Header, Grid, Form, Message } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Header, Grid, Form, Message, Segment } from "semantic-ui-react";
+import { Link, Redirect } from "react-router-dom";
 import { createUser, loginUser } from "../redux/actions/api";
+import getUser from "../helpers/getUser";
 
 class SignUp extends Component {
 	state = {
@@ -22,19 +23,22 @@ class SignUp extends Component {
 			email: this.state.email,
 			password: this.state.password
 		};
-		let callback = resp => {
-			console.log(resp);
 
+		//handle response
+		let callback = resp => {
 			if (resp.status && resp.status === 422) {
-				//invalid email
+				//if invalid email
 				this.setState({ error: true });
 			} else {
-				// login user
+				//else login new user
 				let loginCallback = ({ data: { signInUser } }) => {
 					if (signInUser && signInUser.token) {
 						localStorage.setItem(
 							"user",
-							JSON.stringify({ authdata: signInUser.token })
+							JSON.stringify({
+								authdata: signInUser.token,
+								info: signInUser.user
+							})
 						);
 						this.props.history.push("/home");
 					} else {
@@ -42,7 +46,7 @@ class SignUp extends Component {
 					}
 				};
 
-				loginUser(data, loginCallback)
+				loginUser(data, loginCallback);
 			}
 		};
 
@@ -50,6 +54,10 @@ class SignUp extends Component {
 	};
 
 	render() {
+		let user = getUser();
+		if (user && user.authdata) {
+			return <Redirect to="/home" />;
+		}
 		return (
 			<>
 				<Grid.Row>
@@ -94,7 +102,11 @@ class SignUp extends Component {
 					</Grid.Column>
 				</Grid.Row>
 				<Grid.Row>
-					Part of a Caravan? <Link to="/login">Sign In</Link>
+					<Grid.Column width={6}>
+						<Segment textAlign="center">
+							Part of a Caravan? <Link to="/login">Sign In</Link>
+						</Segment>
+					</Grid.Column>
 				</Grid.Row>
 			</>
 		);

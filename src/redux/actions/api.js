@@ -68,36 +68,48 @@ export const postSurveyQuery = (data, callback) => {
 		`supports_candidate: ${supports_candidate}, ` +
 		`level_of_support: ${level_of_support} )` +
 		//response data
-		" { voter_record { name } } }"
+		" { voter_record { name } } }";
 	postQuery(queryString, callback);
 };
 
 export const loginUser = (data, callback) => {
-	let {email, password} = data
-	let queryString = 'mutation { signInUser( email: {' +
-		`email: "${email}", `+
-		`password: "${password}"})` + 
+	let { email, password } = data;
+	let queryString =
+		"mutation { signInUser( email: {" +
+		`email: "${email}", ` +
+		`password: "${password}"})` +
 		//response data
-		'{user { id name campaign {id name}} token } }'
-	postQuery(queryString, callback)
+		"{user { id name campaign {id name}} token } }";
+	postQuery(queryString, callback);
 };
 
 export const createUser = (data, callback) => {
-	let {name, email, password} = data
-	let queryString = 'mutation { createUser(' + 
+	let { name, email, password } = data;
+	let queryString =
+		"mutation { createUser(" +
 		`name: "${name}", ` +
-		'authProvider: {email: {' +
-		`email: "${email}", `+
-		`password: "${password}"}})` + 
+		"authProvider: {email: {" +
+		`email: "${email}", ` +
+		`password: "${password}"}})` +
 		//response data
-		'{id name email} }'
-	postQuery(queryString, callback)
+		"{id name email} }";
+	postQuery(queryString, callback);
 };
 
-
 export const logoutUser = () => {
-	localStorage.removeItem('user');
-}
+	localStorage.removeItem("user");
+};
+
+export const updateUserCampaign = (data, callback) => {
+	let queryString =
+		"mutation { updateUserCampaign(" +
+		`user_id: "${data.userId}", ` +
+		`campaign_id: "${data.campaignId}") ` +
+		//response data
+		"{ name } }";
+	console.log(queryString);
+	postQuery(queryString, callback);
+};
 // mutation {
 // 	createUser(name: "Example", authProvider: {email: {email: "example@example.com", password: "password"}}) {
 // 	  id
@@ -118,7 +130,6 @@ export const logoutUser = () => {
 //  }
 //    }
 //  }
-
 
 //  mutation {
 //    updateUserCampaign(user_id: "65c5b0c4-5c99-4510-9e2b-cc87ee274fc9", campaign_id: "5ebcfa50-e4c4-4709-b874-c0314a16e52b") {

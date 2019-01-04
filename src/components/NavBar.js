@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Menu, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
-import {logoutUser} from '../redux/actions/api'
+import { logoutUser } from "../redux/actions/api";
+import { clearState } from "../redux/actions/actions"
+import { connect } from "react-redux";
 
 const color = "violet";
 class NavBar extends Component {
@@ -23,11 +25,14 @@ class NavBar extends Component {
 		let clickFunc;
 		let text = "";
 		if (user && user.authdata) {
-			clickFunc = logoutUser
+			clickFunc = () => {
+				this.props.clearState()
+				logoutUser()
+			};
 			text = "Logout";
 		} else {
 			text = "Login";
-			clickFunc=this.handleItemClick
+			clickFunc = this.handleItemClick;
 		}
 		return (
 			<Menu.Item
@@ -53,7 +58,6 @@ class NavBar extends Component {
 		return (
 			<Menu inverted>
 				<Menu.Item as={Link} to="/home" color={color} active>
-					{" "}
 					<Icon size="large" name="bus" />
 					Caravan
 				</Menu.Item>
@@ -65,7 +69,6 @@ class NavBar extends Component {
 					color={color}
 					name="home"
 				>
-					{" "}
 					Home
 				</Menu.Item>
 				<Menu.Item
@@ -76,10 +79,9 @@ class NavBar extends Component {
 					color={color}
 					name="phone"
 				>
-					{" "}
 					Phone Bank
 				</Menu.Item>
-				<Menu.Item
+				{/* <Menu.Item
 					as={Link}
 					to="/home"
 					active={activeItem === "canvas"}
@@ -87,13 +89,29 @@ class NavBar extends Component {
 					color={color}
 					name="canvas"
 				>
-					{" "}
 					Canvas
-				</Menu.Item>
-				{this.logInOut()}
+				</Menu.Item> */}
+
+				<Menu.Menu position="right">
+					<Menu.Item
+						as={Link}
+						to="/campaign"
+						active={activeItem === "campaign"}
+						onClick={this.handleItemClick}
+						color={color}
+						position="right"
+						name="campaign"
+					>
+						Campaign
+					</Menu.Item>
+					{this.logInOut()}
+				</Menu.Menu>
 			</Menu>
 		);
 	}
 }
 
-export default withRouter(NavBar);
+export default connect(
+	null,
+	{ clearState }
+)(withRouter(NavBar));

@@ -5,7 +5,7 @@ export function authHeader() {
     if (user && user.authdata) {
 		return  {
 			"Content-Type": "application/json", 
-			'Authorization': 'Basic ' + user.authdata 
+			'Authorization': user.authdata 
 		};
     } else {
         return {"Content-Type": "application/json"};

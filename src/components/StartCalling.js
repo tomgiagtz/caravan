@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Segment, Icon, Header, Button } from "semantic-ui-react";
+import { Segment, Icon, Header, Button, Card } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 const instructions =
-	"Here are some sort of instructions where you would explain how to use the script and provide other information";
+	"Call each voter and follow the script. Then fill out the survey about each voter. Each answer is subjective so answer to the best of your ability and thanks for using Carvan! ";
 
 class StartCalling extends Component {
 	render() {
@@ -13,19 +13,24 @@ class StartCalling extends Component {
 				<Header icon>
 					<Icon name="phone" />
 				</Header>
-				{instructions}
+				<Card centered>
+					<Card.Content header="Instructions" />
+					<Card.Content>{instructions}</Card.Content>
 
-				{this.props.nextVoter ? (
-					<Button
-						as={Link}
-						to={"/phone/" + this.props.nextVoter.id}
-						primary
-					>
-						Start Calling
-					</Button>
-				) : (
-						<Button>No more voters in this batch</Button>
-				)}
+					<Card.Content>
+						{this.props.nextVoter ? (
+							<Button
+								as={Link}
+								to={"/phone/" + this.props.nextVoter.id}
+								primary
+							>
+								Start Calling
+							</Button>
+						) : (
+							<Button>No more voters in this batch</Button>
+						)}
+					</Card.Content>
+				</Card>
 			</Segment>
 		);
 	}

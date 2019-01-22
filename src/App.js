@@ -6,7 +6,7 @@ import PhoneContainer from "./containers/PhoneContainer";
 import { connect } from "react-redux";
 import { Segment } from "semantic-ui-react";
 import { fetchVoters, fetchCampaign } from "./redux/actions/actions";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import { PrivateRoute } from "./helpers/PrivateRoute";
 import LoginContainer from "./containers/LoginContainer";
 import NotFound from "./components/NotFound";
@@ -37,6 +37,7 @@ class App extends Component {
 							component={CampaignContainer}
 						/>
 						<Route path="/login" component={LoginContainer} />
+						<Route exact path="/" render={() => <Redirect to="/home"/>} />
 						<Route path="/" component={NotFound} />
 					</Switch>
 				</Segment>

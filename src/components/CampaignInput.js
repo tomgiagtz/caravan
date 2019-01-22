@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Input, Form, Message } from "semantic-ui-react";
+import { Card, Form, Message } from "semantic-ui-react";
 import getUser from "../helpers/getUser";
 import { updateUserCampaign } from "../redux/actions/api";
 import { withRouter } from "react-router-dom";

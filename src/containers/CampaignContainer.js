@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CampaignInput from "../components/CampaignInput";
 import CampaignDetails from "../components/CampaignDetails";
-import { CardGroup, Card } from "semantic-ui-react";
 import getUser from "../helpers/getUser";
 
 export default class CampaignContainer extends Component {

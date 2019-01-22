@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Header, Grid, Message, Segment } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
-import { loginUser, updateUserCampaign } from "../redux/actions/api";
+import { loginUser } from "../redux/actions/api";
 import { fetchCampaign } from "../redux/actions/actions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
